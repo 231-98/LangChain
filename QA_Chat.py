@@ -128,7 +128,7 @@ def get_text_chunks(text):
 def get_vectorstore(text_chunks):
     embeddings = HuggingFaceBgeEmbeddings(
         model_name="jhgan/ko-sroberta-multitask",
-        model_kwargs={'device': 'cpu'},
+        model_kwargs={'device_map': 'auto'},
         encode_kwargs={'normalize_embeddings': True})
     
     vectordb = FAISS.from_documents(text_chunks, embeddings)
