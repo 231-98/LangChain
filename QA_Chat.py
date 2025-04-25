@@ -11,13 +11,15 @@ from langchain.memory import ConversationBufferMemory
 from langchain.vectorstores import FAISS
 from langchain.callbacks import get_openai_callback
 
+from sentence_transformers import SentenceTransformer
+
 def main():
     st.set_page_config(
         page_title="Dirchat",
         page_icon="📚"
     )
 
-    st.title("_Private Data :red[QA Chat]_ 📚")
+    st.title("_Private Data : red[QA Chat]_ 📚")
 
     if "conversation" not in st.session_state:
         st.session_state.conversation = None
@@ -37,7 +39,7 @@ def main():
 
         files_text = get_text(upload_files)
         text_chunks = get_text_chunks(files_text)
-        vectorstore = get_vectorstore(text_chunks)
+        vectorstore = get_vectorstore(text_chunks)  # ✅ 수정된 임베딩 방식 사용
 
         st.session_state.conversation = get_conversation_chain(vectorstore, openai_api_key)
 
@@ -111,11 +113,10 @@ def get_text_chunks(text):
     return chunks
 
 def get_vectorstore(text_chunks):
-    embeddings = HuggingFaceBgeEmbeddings(
-        model_name="jhgan/ko-sroberta-multitask",
-        model_kwargs={"device_map": "auto"},
-        encode_kwargs={"normalize_embeddings": True}
-    )
+    # ✅ HuggingFace 모델 수동 로드
+    model = SentenceTransformer("jhgan/ko-sroberta-multitask")
+    embeddings = HuggingFaceBgeEmbeddings(model_name=None, model=model)
+
     vectordb = FAISS.from_documents(text_chunks, embeddings)
     return vectordb
 
