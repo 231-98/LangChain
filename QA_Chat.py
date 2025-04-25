@@ -59,10 +59,6 @@ def main():
         
     # chat logic
     if query := st.chat_input("질문을 입력해주세요."):
-        if st.session_state.conversation is None:
-        st.error("먼저 왼쪽 사이드바에서 파일 업로드 후 'Process' 버튼을 눌러주세요.")
-        st.stop()
-        
         st.session_state.messages.append({"role" : "user", "content" : query})
         
         with st.chat_message("user"):
@@ -85,7 +81,7 @@ def main():
                     st.markdown(source_documents[2].metadata['source'], help = source_documents[2].page_content)
 
 # Add assistant message to chat history
-        st.session_state.messages.append({"role": "assistant", "content": response})
+        st.session_state.messages.append({"role": "assistant", "content": response            })
         
 # cl100k_base 기준으로 몇 토큰인지 계산해주는 함수        
 def tiktoken_len(text):
@@ -144,7 +140,7 @@ def get_conversation_chain(vetorestore,openai_api_key):
     conversation_chain = ConversationalRetrievalChain.from_llm(
             llm=llm, 
             chain_type="stuff", 
-            retriever=vetorestore.as_retriever(search_type = 'mmr', verbose = True), 
+            retriever=vetorestore.as_retriever(search_type = 'mmr', vervose = True), 
             memory=ConversationBufferMemory(memory_key='chat_history', return_messages=True, output_key='answer'),
             get_chat_history=lambda h: h,
             return_source_documents=True,
