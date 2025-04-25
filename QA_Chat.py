@@ -3,7 +3,7 @@ import tiktoken # 텍스트를 여러개의 청크로 나눌때, 토큰 개수�
 
 from loguru import logger # 로그로 기록
 from langchain.chains import ConversationalRetrievalChain#
-from langchain.chat_models import ChatOpenAI
+from langchain_community.chat_models import ChatOpenAI
 
 from langchain.document_loaders import PyPDFLoader # pdf
 from langchain.document_loaders import Docx2txtLoader # txt
