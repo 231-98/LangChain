@@ -135,17 +135,18 @@ def get_vectorstore(text_chunks):
     return vectordb
 
 # temperature 0인이유 : RAG는 문서를 검색해서 그대로 정답을 생성하는 구조이므로, 창의성 보다는 사실 기반이 중요함
-def get_conversation_chain(vetorestore, openai_api_key):
-    llm = ChatOpenAI(openai_api_key = openai_api_key, model_name = 'gpt-3.5-turbo', temperature = 0)
+def get_conversation_chain(vetorestore,openai_api_key):
+    llm = ChatOpenAI(openai_api_key=openai_api_key, model_name = 'gpt-3.5-turbo',temperature=0)
     conversation_chain = ConversationalRetrievalChain.from_llm(
-        llm=llm,
-        chain_type = "stuff",
-        retriever = vetorestore.as_retriever(search_type = 'mmr', vervose = True),
-        memory = ConversationBufferMemory(memory_key='chat_history', return_messages=True, output_key = 'answer'),
-        get_chat_history = lambda h: h, # 메모리 들어온 그대로 Chat history에 저장
-        return_source_documents = True,
-        verbose = True
-    )
+            llm=llm, 
+            chain_type="stuff", 
+            retriever=vetorestore.as_retriever(search_type = 'mmr', vervose = True), 
+            memory=ConversationBufferMemory(memory_key='chat_history', return_messages=True, output_key='answer'),
+            get_chat_history=lambda h: h,
+            return_source_documents=True,
+            verbose = True
+        )
+
     return conversation_chain
 
 if __name__ == '__main__':
