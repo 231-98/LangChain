@@ -140,7 +140,7 @@ def get_conversation_chain(vetorestore, openai_api_key):
     conversation_chain = ConversationalRetrievalChain.from_llm(
         llm=llm,
         chain_type = "stuff",
-        retriever = vetorestore.as_retriever(search_type = 'mmr', verbose = True),
+        retriever = vetorestore.as_retriever(search_type = 'mmr', vervose = True),
         memory = ConversationBufferMemory(memory_key='chat_history', return_messages=True, output_key = 'answer'),
         get_chat_history = lambda h: h, # 메모리 들어온 그대로 Chat history에 저장
         return_source_documents = True,
