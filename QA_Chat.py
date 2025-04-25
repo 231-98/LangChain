@@ -141,9 +141,9 @@ def get_conversation_chain(vetorestore, open_api_key):
         llm=llm,
         chain_type = "stuff",
         retriever = vetorestore.as_retriever(search_type = 'mmr', verbose = True),
-        memory = ConversationBufferMemory(memory_key='chat_history', return_messages=True, ouput_key = 'answer'),
+        memory = ConversationBufferMemory(memory_key='chat_history', return_messages=True, output_key = 'answer'),
         get_chat_history = lambda h: h, # 메모리 들어온 그대로 Chat history에 저장
-        return_source_document = True,
+        return_source_documents = True,
         verbose = True
     )
     return conversation_chain
