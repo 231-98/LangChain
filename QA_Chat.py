@@ -102,13 +102,13 @@ def get_text(docs):
         
         if '.pdf' in doc.name:
             loader = PyPDFLoader(file_name)
-            documents = loader.load.load_and_split()
+            documents = loader.load_and_split()
         elif '.docx' in doc.name :
             loader = Docx2txtLoader(file_name)
-            documents = loader.load.load_and_split()
+            documents = loader.load_and_split()
         elif '.pptx' in doc.name :
             loader = UnstructuredPowerPointLoader(file_name)
-            documents = loader.load.load_and_split()
+            documents = loader.load_and_split()
             
         doc_list.extend(documents) # document들의 목록을 반환 (extend 쓰는 이유 → 요소로 추가)
     
